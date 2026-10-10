@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "timezone": "Asia/Shanghai",
+  "source_repository": "https://github.com/sgl-project/sglang",
+  "days": [
+    {
+      "date": "2026-10-10",
+      "lessons": [
+        {
+          "topic_id": "process-boundaries",
+          "title": "HTTP 请求为什么不能直接拥有推理循环",
+          "file": "daily/2026-10-10/01-process-boundaries.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/entrypoints/engine.py",
+              "symbol": "def _launch_scheduler_processes",
+              "line": 847
+            },
+            {
+              "path": "python/sglang/srt/entrypoints/http_server.py",
+              "symbol": "\"/generate\"",
+              "line": 918
+            },
+            {
+              "path": "python/sglang/srt/managers/tokenizer_manager.py",
+              "symbol": "async def generate_request",
+              "line": 848
+            },
+            {
+              "path": "python/sglang/srt/managers/tokenizer_manager.py",
+              "symbol": "async def _send_one_request",
+              "line": 1665
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def event_loop_normal",
+              "line": 1932
+            }
+          ]
+        },
+        {
+          "topic_id": "batch-lowering",
+          "title": "为什么一个请求要经过三种不同的表示",
+          "file": "daily/2026-10-10/02-batch-lowering.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "class Req(",
+              "line": 977
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "class ScheduleBatch(",
+              "line": 2305
+            },
+            {
+              "path": "python/sglang/srt/model_executor/forward_batch_info.py",
+              "symbol": "class ForwardBatch(",
+              "line": 468
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def prepare_for_extend",
+              "line": 2686
+            },
+            {
+              "path": "python/sglang/srt/model_executor/forward_batch_info.py",
+              "symbol": "def init_new",
+              "line": 847
+            }
+          ]
+        },
+        {
+          "topic_id": "prefix-cache-ownership",
+          "title": "共享前缀 KV 为什么必须同时设计保护和回收",
+          "file": "daily/2026-10-10/03-prefix-cache-ownership.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/radix_cache.py",
+              "symbol": "def match_prefix",
+              "line": 396
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/radix_cache.py",
+              "symbol": "def inc_lock_ref",
+              "line": 673
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/radix_cache.py",
+              "symbol": "def evict(",
+              "line": 643
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/radix_cache.py",
+              "symbol": "def cache_finished_req",
+              "line": 478
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
