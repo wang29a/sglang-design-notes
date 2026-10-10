@@ -50,6 +50,7 @@ def publish(date):
         run('git', 'commit', '-m', f'Learn three SGLang designs for {date}')
     elif changed != 0:
         raise RuntimeError('Unable to inspect staged diff')
+    scan_history(ROOT)
     # Use existing gh credentials without printing or copying tokens.
     run('git', '-c', 'credential.helper=', '-c', 'credential.helper=!gh auth git-credential',
         'push', 'origin', 'main')
