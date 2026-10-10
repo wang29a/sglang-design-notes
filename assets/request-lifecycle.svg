@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 226" role="img" aria-labelledby="title desc">
+  <title id="title">SGLang request lifecycle</title>
+  <desc id="desc">Simplified teaching diagram: request ingress, scheduling, execution view, model execution, and output. Logical requests and shared KV remain valid across iterations.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#64748b"/></marker>
+  </defs>
+  <rect width="1040" height="226" rx="16" fill="#0f172a"/>
+  <g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Noto Sans CJK SC,Microsoft YaHei,sans-serif">
+    <text x="30" y="35" fill="#93c5fd" font-size="12" font-weight="700" letter-spacing="2">ONE REQUEST · MANY DESIGN DECISIONS</text>
+    <text x="30" y="62" fill="#e2e8f0" font-size="18" font-weight="600">从请求入口，到状态安全，再到模型执行</text>
+    <g stroke="#334155" fill="#17233b" stroke-width="1">
+      <rect x="30" y="86" width="176" height="78" rx="10"/>
+      <rect x="230" y="86" width="176" height="78" rx="10"/>
+      <rect x="430" y="86" width="176" height="78" rx="10"/>
+      <rect x="630" y="86" width="176" height="78" rx="10"/>
+      <rect x="830" y="86" width="180" height="78" rx="10"/>
+    </g>
+    <g stroke="#64748b" stroke-width="2" marker-end="url(#arrow)">
+      <path d="M210 125 H222"/><path d="M410 125 H422"/><path d="M610 125 H622"/><path d="M810 125 H822"/>
+    </g>
+    <g text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="600">
+      <text x="118" y="117">请求入口</text><text x="318" y="117">集中调度</text><text x="518" y="117">执行视图</text><text x="718" y="117">模型执行</text><text x="920" y="117">结果回流</text>
+    </g>
+    <g text-anchor="middle" fill="#a8b6cb" font-size="12">
+      <text x="118" y="144">HTTP · Tokenizer</text><text x="318" y="144">Scheduler · Batch</text><text x="518" y="144">Tensors · KV Mapping</text><text x="718" y="144">Worker · ModelRunner</text><text x="920" y="144">Tokens · Text</text>
+    </g>
+    <text x="30" y="196" fill="#94a3b8" font-size="12">贯穿主线：请求持续状态 · 每轮批次决策 · 共享 KV 的有效生命周期</text>
+    <text x="1010" y="196" text-anchor="end" fill="#64748b" font-size="11">教学示意 / 非运行追踪</text>
+  </g>
+</svg>
