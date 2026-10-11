@@ -107,6 +107,156 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-11",
+      "lessons": [
+        {
+          "topic_id": "continuous-batch-lifecycle",
+          "title": "正在运行的请求，为什么不等于下一次 forward 的批次",
+          "file": "daily/2026-10-11/01-continuous-batching.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def event_loop_normal",
+              "line": 1932
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def get_next_batch_to_run",
+              "line": 3648
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def filter_batch",
+              "line": 3600
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def _get_new_batch_prefill_raw",
+              "line": 3843
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def mix_with_running",
+              "line": 3096
+            }
+          ]
+        },
+        {
+          "topic_id": "chunked-prefill-progress",
+          "title": "长提示被切成几块之后，怎样仍然是同一个请求",
+          "file": "daily/2026-10-11/02-chunked-prefill-progress.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def set_extend_range",
+              "line": 1530
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def get_next_batch_to_run",
+              "line": 3648
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def stash_chunked_request",
+              "line": 3542
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/radix_cache.py",
+              "symbol": "def cache_unfinished_req",
+              "line": 566
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_policy.py",
+              "symbol": "def add_chunked_req",
+              "line": 1022
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def process_batch_result_prefill",
+              "line": 257
+            }
+          ]
+        },
+        {
+          "topic_id": "policy-resource-admission",
+          "title": "队列排在前面，为什么仍然可能进不了批次",
+          "file": "daily/2026-10-11/03-policy-and-admission.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/schedule_policy.py",
+              "symbol": "def calc_priority",
+              "line": 259
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_policy.py",
+              "symbol": "def _sort_by_shortest_prefill",
+              "line": 439
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_policy.py",
+              "symbol": "def _determine_active_policy",
+              "line": 330
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def _get_new_batch_prefill_raw",
+              "line": 3843
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_policy.py",
+              "symbol": "def shortest_prefill_chunk_limit",
+              "line": 451
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_policy.py",
+              "symbol": "def add_one_req",
+              "line": 1232
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/prefill_budget.py",
+              "symbol": "def check_prefill",
+              "line": 98
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/prefill_budget.py",
+              "symbol": "class PrefillBudget",
+              "line": 61
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_policy.py",
+              "symbol": "def _select_prefill_admission",
+              "line": 1345
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_policy.py",
+              "symbol": "def _commit_prefill_admission",
+              "line": 1432
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_policy.py",
+              "symbol": "def budget_state",
+              "line": 827
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_policy.py",
+              "symbol": "def _update_prefill_budget",
+              "line": 848
+            }
+          ]
+        }
+      ]
     }
   ]
 }
