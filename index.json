@@ -257,6 +257,171 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-12",
+      "lessons": [
+        {
+          "topic_id": "request-row-kv-contract",
+          "title": "有空闲 KV，为什么仍然可能分不到请求槽",
+          "file": "daily/2026-10-12/01-request-row-and-kv-slots.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/memory_pool.py",
+              "symbol": "class ReqToTokenPool:",
+              "line": 272
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocation.py",
+              "symbol": "def alloc_req_slots(",
+              "line": 289
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/memory_pool.py",
+              "symbol": "def alloc(self, reqs: list[Req]) -> Optional[List[int]]:",
+              "line": 315
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocation.py",
+              "symbol": "def alloc_for_extend(",
+              "line": 344
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocation.py",
+              "symbol": "def write_cache_indices(",
+              "line": 55
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def prepare_for_extend(self):",
+              "line": 2686
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/memory_pool.py",
+              "symbol": "def free(self, req: Req):",
+              "line": 358
+            }
+          ]
+        },
+        {
+          "topic_id": "paged-growth-tail-ownership",
+          "title": "每轮只生成一个 token，为什么有时要分配整页 KV",
+          "file": "daily/2026-10-12/02-paged-growth-and-tail.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/paged.py",
+              "symbol": "class PagedTokenToKVPoolAllocator(BaseTokenToKVPoolAllocator):",
+              "line": 116
+            },
+            {
+              "path": "python/sglang/srt/utils/common.py",
+              "symbol": "def get_num_new_pages(",
+              "line": 4702
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/paged.py",
+              "symbol": "def alloc_extend(",
+              "line": 183
+            },
+            {
+              "path": "python/sglang/kernels/ops/memory/allocator.py",
+              "symbol": "def alloc_extend_kernel(",
+              "line": 116
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocation.py",
+              "symbol": "def alloc_for_decode(batch: ScheduleBatch, token_per_req: int) -> torch.Tensor:",
+              "line": 587
+            },
+            {
+              "path": "python/sglang/kernels/ops/memory/allocator.py",
+              "symbol": "def alloc_decode_kernel(",
+              "line": 203
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/paged.py",
+              "symbol": "def free(self, free_index: torch.Tensor):",
+              "line": 270
+            }
+          ]
+        },
+        {
+          "topic_id": "decode-retraction-resume",
+          "title": "KV 不够时，怎样撤回请求而不抹掉已经生成的内容",
+          "file": "daily/2026-10-12/03-decode-retraction-and-resume.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def update_running_batch(self, batch: ScheduleBatch) -> Optional[ScheduleBatch]:",
+              "line": 4193
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def new_tokens_required_next_decode(",
+              "line": 3200
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def check_decode_mem(self, selected_indices: Optional[List[int]] = None):",
+              "line": 3229
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/base.py",
+              "symbol": "def check_decode_capacity(",
+              "line": 151
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def retract_decode(self) -> Tuple[List[Req], float, List[Req]]:",
+              "line": 3248
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def _get_decode_retraction_order(reqs: List[Req]) -> List[int]:",
+              "line": 3335
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def release_req(",
+              "line": 2209
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/radix_cache.py",
+              "symbol": "def cache_finished_req(",
+              "line": 478
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/common.py",
+              "symbol": "def release_kv_cache(req: Req, tree_cache: BasePrefixCache, is_insert: bool = True):",
+              "line": 272
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def reset_for_retract(self):",
+              "line": 1931
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def _add_request_to_queue(self, req: Req, is_retracted: bool = False):",
+              "line": 3277
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def _refresh_fill_ids(self) -> None:",
+              "line": 1536
+            }
+          ]
+        }
+      ]
     }
   ]
 }
