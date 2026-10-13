@@ -40,6 +40,7 @@ SGLang 把不断到达的请求组织成动态批次，让它们共享有限的 
 
 | 日期 | 三个相连的问题 | 源码版本 |
 | --- | --- | --- |
+| 2026-10-13 | [跨进程取消与本地状态](daily/2026-10-13/01-cancel-across-processes.md) → [按执行阶段清理](daily/2026-10-13/02-cancel-by-execution-phase.md) → [中间块取消与结果收尾](daily/2026-10-13/03-chunked-abort-and-result-drain.md) | `0f6761b54fac` |
 | 2026-10-12 | [请求行与 KV 槽](daily/2026-10-12/01-request-row-and-kv-slots.md) → [分页增长与尾页归属](daily/2026-10-12/02-paged-growth-and-tail.md) → [decode 回退与恢复](daily/2026-10-12/03-decode-retraction-and-resume.md) | `0f6761b54fac` |
 | 2026-10-11 | [动态批次与请求归属](daily/2026-10-11/01-continuous-batching.md) → [分块进度与输出提交](daily/2026-10-11/02-chunked-prefill-progress.md) → [策略与资源准入](daily/2026-10-11/03-policy-and-admission.md) | `0f6761b54fac` |
 | 2026-10-10 | [进程边界](daily/2026-10-10/01-process-boundaries.md) → [批次表示](daily/2026-10-10/02-batch-lowering.md) → [前缀生命周期](daily/2026-10-10/03-prefix-cache-ownership.md) | `0f6761b54fac` |
@@ -50,9 +51,9 @@ SGLang 把不断到达的请求组织成动态批次，让它们共享有限的 
 
 | 阶段 | 核心问题 | 当前进度 |
 | --- | --- | --- |
-| 请求生命周期 | 进程边界、请求表示、前缀共享与资源归属 | 已发布第一组文章 |
+| 请求生命周期 | 进程边界、请求表示、前缀共享与资源归属 | 已发布入口、表示、前缀归属与取消清理 |
 | 调度与容量 | Continuous batching、chunked prefill、排队策略、KV 分配与回退 | 已发布批次形成、分块、准入、槽位映射、分页增长与回退 |
-| 执行与并发 | CPU/GPU overlap、延迟结果、CUDA Graph、attention backend | 规划中 |
+| 执行与并发 | CPU/GPU overlap、延迟结果、CUDA Graph、attention backend | 已分析取消后的延迟结果记账；流依赖待深入 |
 | 功能与架构扩展 | 结构化输出、推测解码、多模态、HiCache、PD 分离与路由 | 规划中 |
 | 分布式执行 | TP / DP / EP、通信、控制面与数据面 | 规划中 |
 

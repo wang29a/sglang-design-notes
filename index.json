@@ -422,6 +422,176 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-13",
+      "lessons": [
+        {
+          "topic_id": "cancel-dispatch-state-lifecycle",
+          "title": "客户端断开以后，为什么请求状态还不能立即删除",
+          "file": "daily/2026-10-13/01-cancel-across-processes.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/tokenizer_manager.py",
+              "symbol": "async def generate_request(",
+              "line": 848
+            },
+            {
+              "path": "python/sglang/srt/managers/tokenizer_manager.py",
+              "symbol": "async def _send_one_request(",
+              "line": 1665
+            },
+            {
+              "path": "python/sglang/srt/managers/tokenizer_manager.py",
+              "symbol": "def _release_req_states_on_failure(self, rids: Iterable[str]):",
+              "line": 3615
+            },
+            {
+              "path": "python/sglang/srt/managers/tokenizer_manager.py",
+              "symbol": "async def _stream_one_response(",
+              "line": 1828
+            },
+            {
+              "path": "python/sglang/srt/entrypoints/http_server.py",
+              "symbol": "async def generate_request(obj: GenerateReqInput, request: Request):",
+              "line": 922
+            },
+            {
+              "path": "python/sglang/srt/managers/tokenizer_manager.py",
+              "symbol": "def create_abort_task(self, obj: GenerateReqInput):",
+              "line": 2275
+            },
+            {
+              "path": "python/sglang/srt/managers/tokenizer_manager.py",
+              "symbol": "def abort_request(self, rid: str = \"\", abort_all: bool = False):",
+              "line": 2097
+            },
+            {
+              "path": "python/sglang/srt/managers/tokenizer_manager.py",
+              "symbol": "def _handle_abort_req(self, recv_obj: AbortReq):",
+              "line": 3354
+            },
+            {
+              "path": "python/sglang/srt/entrypoints/http_server.py",
+              "symbol": "async def abort_request(obj: Annotated[AbortReq, Body()], request: Request):",
+              "line": 1655
+            }
+          ]
+        },
+        {
+          "topic_id": "cancel-phase-owned-cleanup",
+          "title": "同一个取消消息，为什么排队请求和 decode 请求要走不同清理路径",
+          "file": "daily/2026-10-13/02-cancel-by-execution-phase.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def abort_request(self, recv_req: AbortReq):",
+              "line": 5436
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def _release_aborted_request(self, req: Req) -> None:",
+              "line": 3340
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def collect_inflight_reqs(self) -> Set[Req]:",
+              "line": 5427
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def process_batch_result_decode(",
+              "line": 921
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def update_finish_state(self, new_accepted_len: int = 1):",
+              "line": 1889
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def _handle_finish_state_updated_req(",
+              "line": 1257
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/common.py",
+              "symbol": "def release_kv_cache(req: Req, tree_cache: BasePrefixCache, is_insert: bool = True):",
+              "line": 272
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/radix_cache.py",
+              "symbol": "def cache_finished_req(",
+              "line": 478
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def update_running_batch(self, batch: ScheduleBatch) -> Optional[ScheduleBatch]:",
+              "line": 4193
+            }
+          ]
+        },
+        {
+          "topic_id": "chunk-abort-result-drain",
+          "title": "长 prefill 已经取消，为什么还要处理它的迟到结果",
+          "file": "daily/2026-10-13/03-chunked-abort-and-result-drain.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def abort_request(self, recv_req: AbortReq):",
+              "line": 5436
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def get_next_batch_to_run(",
+              "line": 3648
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def event_loop_overlap(self):",
+              "line": 1967
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def process_pending_chunked_abort(self) -> None:",
+              "line": 3545
+            },
+            {
+              "path": "python/sglang/srt/disaggregation/utils.py",
+              "symbol": "def prepare_abort(req: Req, error_message: str, status_code=None):",
+              "line": 1704
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def process_batch_result_prefill(",
+              "line": 257
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def _apply_chunked_prefill_logprobs(",
+              "line": 712
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/output_streamer.py",
+              "symbol": "def _stream_output_generation(",
+              "line": 144
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def _apply_war_barrier(self):",
+              "line": 1918
+            }
+          ]
+        }
+      ]
     }
   ]
 }
