@@ -752,6 +752,121 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-15",
+      "lessons": [
+        {
+          "topic_id": "decode-graph-admission-buckets",
+          "title": "动态批次只有三个请求，为什么能复用四行的 CUDA Graph",
+          "file": "daily/2026-10-15/01-decode-graph-admission.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/model_executor/model_runner.py",
+              "symbol": "def _forward_raw(",
+              "line": 1849
+            },
+            {
+              "path": "python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py",
+              "symbol": "def can_run_graph(self, forward_batch: ForwardBatch):",
+              "line": 647
+            },
+            {
+              "path": "python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py",
+              "symbol": "def load_batch(",
+              "line": 1247
+            },
+            {
+              "path": "python/sglang/srt/model_executor/runner/base_cuda_graph_runner.py",
+              "symbol": "def _pad_to_bucket(raw_size: int, buckets: Sequence[int]) -> int:",
+              "line": 157
+            },
+            {
+              "path": "python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py",
+              "symbol": "def _make_graph_key(",
+              "line": 554
+            },
+            {
+              "path": "python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py",
+              "symbol": "def _validate_capture_hidden_mode(self, forward_batch: ForwardBatch) -> None:",
+              "line": 1240
+            }
+          ]
+        },
+        {
+          "topic_id": "graph-buffer-padding-ownership",
+          "title": "图输入地址保持不变以后，上一批的脏尾数据由谁清理",
+          "file": "daily/2026-10-15/02-static-buffers-and-padding.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+              "symbol": "class CudaGraphBufferRegistry:",
+              "line": 264
+            },
+            {
+              "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+              "symbol": "def build_decode_registry(",
+              "line": 509
+            },
+            {
+              "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+              "symbol": "def fill_from(",
+              "line": 381
+            },
+            {
+              "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+              "symbol": "class PaddingPolicy(Enum):",
+              "line": 70
+            },
+            {
+              "path": "python/sglang/srt/model_executor/cuda_graph_buffer_registry.py",
+              "symbol": "def reset_padding(self, raw_n: int, padded_n: int) -> None:",
+              "line": 229
+            }
+          ]
+        },
+        {
+          "topic_id": "graph-replay-semantic-projection",
+          "title": "图按四行执行，怎样只把三个真实请求的结果交还调度器",
+          "file": "daily/2026-10-15/03-replay-view-and-real-output.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py",
+              "symbol": "def build_replay_fb_view(",
+              "line": 153
+            },
+            {
+              "path": "python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py",
+              "symbol": "def load_batch(",
+              "line": 1247
+            },
+            {
+              "path": "python/sglang/srt/layers/attention/base_attn_backend.py",
+              "symbol": "class AttentionBackend(ABC):",
+              "line": 36
+            },
+            {
+              "path": "python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py",
+              "symbol": "def capture_one_shape(",
+              "line": 1124
+            },
+            {
+              "path": "python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py",
+              "symbol": "def execute(",
+              "line": 1433
+            }
+          ]
+        }
+      ]
     }
   ]
 }
