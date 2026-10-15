@@ -592,6 +592,166 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-14",
+      "lessons": [
+        {
+          "topic_id": "overlap-future-token-binding",
+          "title": "下一枚 token 还没回到 CPU，为什么已经能准备下一轮 decode",
+          "file": "daily/2026-10-14/01-future-token-late-binding.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def event_loop_overlap(self):",
+              "line": 1967
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def prepare_for_decode(self):",
+              "line": 3504
+            },
+            {
+              "path": "python/sglang/srt/managers/overlap_utils.py",
+              "symbol": "class FutureMap:",
+              "line": 248
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def run_batch(",
+              "line": 4337
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def _relay_forward_payload(",
+              "line": 4670
+            },
+            {
+              "path": "python/sglang/srt/managers/overlap_utils.py",
+              "symbol": "def stash(self, future_indices: torch.Tensor, payload: RelayPayload) -> None:",
+              "line": 596
+            },
+            {
+              "path": "python/sglang/srt/managers/overlap_utils.py",
+              "symbol": "def resolve_forward_inputs(batch: ScheduleBatch, future_map: FutureMap) -> None:",
+              "line": 87
+            },
+            {
+              "path": "python/sglang/srt/managers/overlap_utils.py",
+              "symbol": "def publish(",
+              "line": 571
+            }
+          ]
+        },
+        {
+          "topic_id": "overlap-stream-read-boundaries",
+          "title": "CPU 可以先走一步，共享映射表为什么仍然必须等读完",
+          "file": "daily/2026-10-14/02-stream-dependencies-and-read-boundary.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def run_batch(",
+              "line": 4337
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def _apply_war_barrier(self):",
+              "line": 1918
+            },
+            {
+              "path": "python/sglang/srt/layers/attention/base_attn_backend.py",
+              "symbol": "class SharedReadEnds(Enum):",
+              "line": 22
+            },
+            {
+              "path": "python/sglang/srt/model_executor/runner_utils/shared_read_event.py",
+              "symbol": "def maybe_publish_prefill_shared_read_done(",
+              "line": 26
+            },
+            {
+              "path": "python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py",
+              "symbol": "def _resolve_shared_read_ends(self, attn_backend, forward_mode) -> SharedReadEnds:",
+              "line": 505
+            },
+            {
+              "path": "python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py",
+              "symbol": "def execute(",
+              "line": 1433
+            },
+            {
+              "path": "python/sglang/srt/model_executor/runner_utils/shared_read_event.py",
+              "symbol": "def make_external_event(device_module) -> Optional[torch.cuda.Event]:",
+              "line": 16
+            },
+            {
+              "path": "python/sglang/srt/managers/utils.py",
+              "symbol": "def copy_to_cpu(self, return_logprob: bool, return_hidden_states: bool = True):",
+              "line": 154
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def process_batch_result_decode(",
+              "line": 921
+            }
+          ]
+        },
+        {
+          "topic_id": "overlap-snapshot-lifetime-contract",
+          "title": "保存上一批对象，为什么不等于保存了上一批的全部状态",
+          "file": "daily/2026-10-14/03-snapshots-and-tensor-lifetime.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def copy(self):",
+              "line": 3759
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def event_loop_overlap(self):",
+              "line": 1967
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def prepare_for_decode(self):",
+              "line": 3504
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def record_batch_in_overlap(self, batch: ScheduleBatch):",
+              "line": 4277
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def _forward_isolation(self, batch: ScheduleBatch, *, overlap: bool):",
+              "line": 4293
+            },
+            {
+              "path": "python/sglang/srt/sampling/sampling_batch_info.py",
+              "symbol": "def copy_for_forward(self):",
+              "line": 535
+            },
+            {
+              "path": "python/sglang/srt/utils/common.py",
+              "symbol": "def async_d2h(tensor: torch.Tensor) -> torch.Tensor:",
+              "line": 562
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def process_batch_result_decode(",
+              "line": 921
+            }
+          ]
+        }
+      ]
     }
   ]
 }
