@@ -40,6 +40,7 @@ SGLang 把不断到达的请求组织成动态批次，让它们共享有限的 
 
 | 日期 | 三个相连的问题 | 源码版本 |
 | --- | --- | --- |
+| 2026-10-17 | [KV 分片与 LSE 归并](daily/2026-10-17/01-split-kv-and-lse-merge.md) → [GQA 头分组与复用](daily/2026-10-17/02-grouped-head-kv-reuse.md) → [批次无关的归约计划](daily/2026-10-17/03-batch-invariant-reduction-plan.md) | `0f6761b54fac` |
 | 2026-10-16 | [不齐整历史的索引流](daily/2026-10-16/01-ragged-kv-read-stream.md) → [前缀与当前块统一归一化](daily/2026-10-16/02-prefix-and-current-attention.md) → [滑窗候选与逻辑坐标](daily/2026-10-16/03-window-candidates-and-coordinates.md) | `0f6761b54fac` |
 | 2026-10-15 | [动态批次的图准入](daily/2026-10-15/01-decode-graph-admission.md) → [稳定 buffer 与脏尾清理](daily/2026-10-15/02-static-buffers-and-padding.md) → [回放视图与真实输出](daily/2026-10-15/03-replay-view-and-real-output.md) | `0f6761b54fac` |
 | 2026-10-14 | [未来 token 与输入晚绑定](daily/2026-10-14/01-future-token-late-binding.md) → [流依赖与共享读边界](daily/2026-10-14/02-stream-dependencies-and-read-boundary.md) → [快照与 tensor 生命周期](daily/2026-10-14/03-snapshots-and-tensor-lifetime.md) | `0f6761b54fac` |
@@ -56,7 +57,7 @@ SGLang 把不断到达的请求组织成动态批次，让它们共享有限的 
 | --- | --- | --- |
 | 请求生命周期 | 进程边界、请求表示、前缀共享与资源归属 | 已发布入口、表示、前缀归属与取消清理 |
 | 调度与容量 | Continuous batching、chunked prefill、排队策略、KV 分配与回退 | 已发布批次形成、分块、准入、槽位映射、分页增长与回退 |
-| 执行与并发 | CPU/GPU overlap、延迟结果、CUDA Graph、attention backend | 已发布 overlap、图回放与 attention 索引、前缀计算及滑窗；decode kernel 待深入 |
+| 执行与并发 | CPU/GPU overlap、延迟结果、CUDA Graph、attention backend | 已发布 overlap、图回放、attention 元数据、decode 分片、GQA 复用与归约稳定性 |
 | 功能与架构扩展 | 结构化输出、推测解码、多模态、HiCache、PD 分离与路由 | 规划中 |
 | 分布式执行 | TP / DP / EP、通信、控制面与数据面 | 规划中 |
 

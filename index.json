@@ -962,6 +962,131 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-17",
+      "lessons": [
+        {
+          "topic_id": "decode-splitkv-lse-merge",
+          "title": "一个 decode query 被拆给多个 kernel program，softmax 怎样重新合成",
+          "file": "daily/2026-10-17/01-split-kv-and-lse-merge.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/layers/attention/triton_backend.py",
+              "symbol": "def forward_decode(",
+              "line": 2102
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/decode_attention.py",
+              "symbol": "def decode_attention_fwd(",
+              "line": 1156
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/decode_attention.py",
+              "symbol": "def _decode_att_m_fwd(",
+              "line": 413
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/decode_attention.py",
+              "symbol": "def _fwd_kernel_stage1(",
+              "line": 226
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/decode_attention.py",
+              "symbol": "def _fwd_kernel_stage2(",
+              "line": 904
+            }
+          ]
+        },
+        {
+          "topic_id": "decode-grouped-head-reuse",
+          "title": "GQA 的多个 Q 头共享 K/V，为什么不能共享 softmax 状态",
+          "file": "daily/2026-10-17/02-grouped-head-kv-reuse.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/kernels/ops/attention/decode_attention.py",
+              "symbol": "def decode_attention_fwd(",
+              "line": 1156
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/decode_attention.py",
+              "symbol": "def _grouped_head_tiles(head_num: int, kv_group_num: int) -> int:",
+              "line": 114
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/decode_attention.py",
+              "symbol": "def _decode_grouped_att_m_fwd(",
+              "line": 768
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/decode_attention.py",
+              "symbol": "def _fwd_grouped_kernel_stage1(",
+              "line": 510
+            }
+          ]
+        },
+        {
+          "topic_id": "decode-batch-invariant-reduction-plan",
+          "title": "A 的输入没有变，换一批同伴为什么仍可能改变 attention 的末位数值",
+          "file": "daily/2026-10-17/03-batch-invariant-reduction-plan.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/layers/attention/triton_backend.py",
+              "symbol": "def get_num_kv_splits(",
+              "line": 407
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/metadata.py",
+              "symbol": "def get_num_kv_splits_triton(",
+              "line": 12
+            },
+            {
+              "path": "python/sglang/srt/layers/attention/triton_backend.py",
+              "symbol": "def __init__(",
+              "line": 151
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/decode_attention.py",
+              "symbol": "def _keep_scheduler_splits() -> bool:",
+              "line": 89
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/decode_attention.py",
+              "symbol": "def _mla_launch_plan(",
+              "line": 172
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/decode_attention.py",
+              "symbol": "def _decode_grouped_att_m_fwd(",
+              "line": 768
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/decode_attention.py",
+              "symbol": "def decode_attention_fwd_grouped(",
+              "line": 1096
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/decode_attention.py",
+              "symbol": "def _fwd_kernel_stage2(",
+              "line": 904
+            },
+            {
+              "path": "python/sglang/srt/layers/attention/triton_backend.py",
+              "symbol": "def forward_decode(",
+              "line": 2102
+            }
+          ]
+        }
+      ]
     }
   ]
 }
