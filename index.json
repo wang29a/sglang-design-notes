@@ -867,6 +867,101 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-16",
+      "lessons": [
+        {
+          "topic_id": "attention-packed-read-stream",
+          "title": "请求有了 KV 映射，attention 为什么还要重建一条索引流",
+          "file": "daily/2026-10-16/01-ragged-kv-read-stream.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/layers/attention/triton_backend.py",
+              "symbol": "class ForwardMetadata:",
+              "line": 113
+            },
+            {
+              "path": "python/sglang/srt/layers/attention/triton_backend.py",
+              "symbol": "def init_forward_metadata(self, forward_batch: ForwardBatch):",
+              "line": 772
+            },
+            {
+              "path": "python/sglang/srt/layers/attention/triton_backend.py",
+              "symbol": "def _fill_kv_indptr_and_indices(",
+              "line": 489
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/kv_index_translator.py",
+              "symbol": "def fill_packed_read_stream(",
+              "line": 199
+            },
+            {
+              "path": "python/sglang/kernels/ops/kvcache/kv_indices.py",
+              "symbol": "def create_flashinfer_kv_indices_triton(",
+              "line": 22
+            }
+          ]
+        },
+        {
+          "topic_id": "extend-prefix-current-normalization",
+          "title": "旧前缀与当前块分开读取，为什么仍然只做一次 softmax",
+          "file": "daily/2026-10-16/02-prefix-and-current-attention.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/layers/attention/triton_backend.py",
+              "symbol": "def init_forward_metadata(self, forward_batch: ForwardBatch):",
+              "line": 772
+            },
+            {
+              "path": "python/sglang/srt/layers/attention/triton_backend.py",
+              "symbol": "def forward_extend(",
+              "line": 1517
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/extend_attention.py",
+              "symbol": "def _fwd_kernel(",
+              "line": 327
+            }
+          ]
+        },
+        {
+          "topic_id": "window-candidates-logical-coordinates",
+          "title": "滑窗已经裁掉旧 KV，为什么每个 query 还要再做一次窗口 mask",
+          "file": "daily/2026-10-16/03-window-candidates-and-coordinates.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/layers/attention/triton_backend.py",
+              "symbol": "def update_sliding_window_buffer(",
+              "line": 2478
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/kv_index_translator.py",
+              "symbol": "def fill_packed_read_stream(",
+              "line": 199
+            },
+            {
+              "path": "python/sglang/srt/layers/attention/triton_backend.py",
+              "symbol": "def forward_extend(",
+              "line": 1517
+            },
+            {
+              "path": "python/sglang/kernels/ops/attention/extend_attention.py",
+              "symbol": "def _fwd_kernel(",
+              "line": 327
+            }
+          ]
+        }
+      ]
     }
   ]
 }
