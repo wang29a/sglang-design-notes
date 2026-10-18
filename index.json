@@ -1087,6 +1087,176 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-18",
+      "lessons": [
+        {
+          "topic_id": "grammar-compile-request-state-isolation",
+          "title": "两个请求使用同一条语法，为什么只能共享编译结果，不能共享匹配进度",
+          "file": "daily/2026-10-18/01-grammar-compilation-and-request-state.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/constrained/grammar_manager.py",
+              "symbol": "def process_req_with_grammar(self, req: Req) -> bool:",
+              "line": 145
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def handle_generate_request(",
+              "line": 2776
+            },
+            {
+              "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+              "symbol": "def get_cached_or_future_value(",
+              "line": 283
+            },
+            {
+              "path": "python/sglang/srt/constrained/xgrammar_backend.py",
+              "symbol": "def dispatch_regex(self, key_string: str) -> BaseGrammarObject:",
+              "line": 372
+            },
+            {
+              "path": "python/sglang/srt/constrained/xgrammar_backend.py",
+              "symbol": "def _from_context(",
+              "line": 323
+            },
+            {
+              "path": "python/sglang/srt/constrained/xgrammar_backend.py",
+              "symbol": "def copy(self):",
+              "line": 148
+            },
+            {
+              "path": "python/sglang/srt/constrained/grammar_manager.py",
+              "symbol": "def get_ready_grammar_requests(self) -> List[Req]:",
+              "line": 203
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def _get_new_batch_prefill_raw(",
+              "line": 3843
+            }
+          ]
+        },
+        {
+          "topic_id": "grammar-vocab-row-contract",
+          "title": "同一批既有受限请求又有自由请求，词表 mask 怎样不串行",
+          "file": "daily/2026-10-18/02-grammar-mask-row-contract.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/model_executor/forward_batch_info.py",
+              "symbol": "def init_new(",
+              "line": 847
+            },
+            {
+              "path": "python/sglang/srt/sampling/sampling_batch_info.py",
+              "symbol": "def update_regex_vocab_mask(self):",
+              "line": 290
+            },
+            {
+              "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+              "symbol": "def fill_vocab_mask_batched(",
+              "line": 88
+            },
+            {
+              "path": "python/sglang/srt/constrained/base_grammar_backend.py",
+              "symbol": "class GrammarMask(NamedTuple):",
+              "line": 148
+            },
+            {
+              "path": "python/sglang/srt/constrained/xgrammar_backend.py",
+              "symbol": "def _allocate_token_bitmask(vocab_size: int, batch_size: int) -> torch.Tensor:",
+              "line": 65
+            },
+            {
+              "path": "python/sglang/srt/constrained/xgrammar_backend.py",
+              "symbol": "def fill_vocab_mask(self, vocab_mask: torch.Tensor, idx: int) -> None:",
+              "line": 122
+            },
+            {
+              "path": "python/sglang/kernels/ops/grammar/bitmask_ops.py",
+              "symbol": "def apply_token_bitmask_inplace_kernel(",
+              "line": 14
+            },
+            {
+              "path": "python/sglang/srt/model_executor/model_runner.py",
+              "symbol": "def sample(",
+              "line": 1977
+            },
+            {
+              "path": "python/sglang/srt/model_executor/model_runner.py",
+              "symbol": "def _preprocess_logits(",
+              "line": 1949
+            },
+            {
+              "path": "python/sglang/srt/sampling/sampling_batch_info.py",
+              "symbol": "def apply_logits_bias(self, logits: torch.Tensor):",
+              "line": 351
+            }
+          ]
+        },
+        {
+          "topic_id": "grammar-state-delayed-sampling-order",
+          "title": "模型 forward 已经结束，为什么语法采样还要等上一批结果处理",
+          "file": "daily/2026-10-18/03-grammar-advance-before-delayed-sample.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/tp_worker.py",
+              "symbol": "def forward_batch_generation(",
+              "line": 631
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def event_loop_overlap(self):",
+              "line": 1967
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def process_batch_result_decode(",
+              "line": 921
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def _accept_grammar_tokens(",
+              "line": 821
+            },
+            {
+              "path": "python/sglang/srt/constrained/xgrammar_backend.py",
+              "symbol": "def accept_token(self, token: int):",
+              "line": 96
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def process_batch_result_prefill(",
+              "line": 257
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def _apply_prefill_grammar(",
+              "line": 692
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def update_finish_state(self, new_accepted_len: int = 1):",
+              "line": 1889
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def launch_batch_sample_if_needed(",
+              "line": 4723
+            }
+          ]
+        }
+      ]
     }
   ]
 }
