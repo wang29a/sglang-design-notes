@@ -40,6 +40,7 @@ SGLang 把不断到达的请求组织成动态批次，让它们共享有限的 
 
 | 日期 | 三个相连的问题 | 源码版本 |
 | --- | --- | --- |
+| 2026-10-19 | [分支语法遍历与回退](daily/2026-10-19/01-grammar-branch-traversal-and-rollback.md) → [target 接受路径与 bonus](daily/2026-10-19/02-target-greedy-path-and-bonus.md) → [语法屏障与幂等提交](daily/2026-10-19/03-grammar-barrier-and-idempotent-commit.md) | `0f6761b54fac` |
 | 2026-10-18 | [编译缓存与请求状态隔离](daily/2026-10-18/01-grammar-compilation-and-request-state.md) → [词表 mask 的行映射](daily/2026-10-18/02-grammar-mask-row-contract.md) → [状态推进与延迟采样](daily/2026-10-18/03-grammar-advance-before-delayed-sample.md) | `0f6761b54fac` |
 | 2026-10-17 | [KV 分片与 LSE 归并](daily/2026-10-17/01-split-kv-and-lse-merge.md) → [GQA 头分组与复用](daily/2026-10-17/02-grouped-head-kv-reuse.md) → [批次无关的归约计划](daily/2026-10-17/03-batch-invariant-reduction-plan.md) | `0f6761b54fac` |
 | 2026-10-16 | [不齐整历史的索引流](daily/2026-10-16/01-ragged-kv-read-stream.md) → [前缀与当前块统一归一化](daily/2026-10-16/02-prefix-and-current-attention.md) → [滑窗候选与逻辑坐标](daily/2026-10-16/03-window-candidates-and-coordinates.md) | `0f6761b54fac` |
@@ -59,7 +60,7 @@ SGLang 把不断到达的请求组织成动态批次，让它们共享有限的 
 | 请求生命周期 | 进程边界、请求表示、前缀共享与资源归属 | 已发布入口、表示、前缀归属与取消清理 |
 | 调度与容量 | Continuous batching、chunked prefill、排队策略、KV 分配与回退 | 已发布批次形成、分块、准入、槽位映射、分页增长与回退 |
 | 执行与并发 | CPU/GPU overlap、延迟结果、CUDA Graph、attention backend | 已发布 overlap、图回放、attention 元数据、decode 分片、GQA 复用与归约稳定性 |
-| 功能与架构扩展 | 结构化输出、推测解码、多模态、HiCache、PD 分离与路由 | 已发布语法编译、请求状态隔离、词表 mask 与延迟采样；其余待深入 |
+| 功能与架构扩展 | 结构化输出、推测解码、多模态、HiCache、PD 分离与路由 | 已发布结构化输出、EAGLE 分支验证、接受路径与语法幂等提交；其余待深入 |
 | 分布式执行 | TP / DP / EP、通信、控制面与数据面 | 规划中 |
 
 [ROADMAP.md](ROADMAP.md) 解释这些问题之间的联系。它是一条可调整的学习路线，实际选题会随源码和已有文章中暴露的疑问延伸。

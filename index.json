@@ -1257,6 +1257,141 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-19",
+      "lessons": [
+        {
+          "topic_id": "speculative-grammar-branch-rollback",
+          "title": "推测树的兄弟分支，怎样借用同一个 matcher 又不污染彼此",
+          "file": "daily/2026-10-19/01-grammar-branch-traversal-and-rollback.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/speculative/spec_utils.py",
+              "symbol": "def generate_token_bitmask(",
+              "line": 535
+            },
+            {
+              "path": "python/sglang/srt/speculative/spec_utils.py",
+              "symbol": "def traverse_tree(",
+              "line": 467
+            },
+            {
+              "path": "python/sglang/srt/constrained/xgrammar_backend.py",
+              "symbol": "def accept_token(self, token: int):",
+              "line": 96
+            },
+            {
+              "path": "python/sglang/srt/constrained/xgrammar_backend.py",
+              "symbol": "def rollback(self, k: int):",
+              "line": 110
+            },
+            {
+              "path": "python/sglang/srt/speculative/eagle_info.py",
+              "symbol": "class EagleVerifyInput(SpecInput):",
+              "line": 16
+            }
+          ]
+        },
+        {
+          "topic_id": "eagle-greedy-accept-path-bonus",
+          "title": "两条 draft 分支都合法，target 为什么只能提交其中一条路径",
+          "file": "daily/2026-10-19/02-target-greedy-path-and-bonus.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/speculative/eagle_worker_common.py",
+              "symbol": "def run_eagle_verify(",
+              "line": 462
+            },
+            {
+              "path": "python/sglang/srt/speculative/eagle_utils.py",
+              "symbol": "def eagle_sample(",
+              "line": 731
+            },
+            {
+              "path": "python/sglang/srt/speculative/eagle_utils.py",
+              "symbol": "def verify_tree_greedy_func(",
+              "line": 381
+            },
+            {
+              "path": "python/sglang/kernels/jit/include/sgl_kernel/speculative/eagle.cuh",
+              "symbol": "__global__ void VerifyTreeGreedy(",
+              "line": 215
+            },
+            {
+              "path": "python/sglang/srt/speculative/eagle_info.py",
+              "symbol": "def max_tree_depth(self) -> int:",
+              "line": 46
+            },
+            {
+              "path": "python/sglang/srt/speculative/eagle_worker_common.py",
+              "symbol": "def _finalize_accept_tree_path(",
+              "line": 407
+            }
+          ]
+        },
+        {
+          "topic_id": "spec-grammar-idempotent-commit",
+          "title": "语法已经提前推进，结果回流时怎样避免同一批 token 被接受两次",
+          "file": "daily/2026-10-19/03-grammar-barrier-and-idempotent-commit.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def run_batch(",
+              "line": 4337
+            },
+            {
+              "path": "python/sglang/srt/speculative/eagle_worker_common.py",
+              "symbol": "def run_eagle_verify(",
+              "line": 462
+            },
+            {
+              "path": "python/sglang/srt/speculative/spec_utils.py",
+              "symbol": "def from_device(",
+              "line": 597
+            },
+            {
+              "path": "python/sglang/srt/speculative/spec_utils.py",
+              "symbol": "def build_grammar_vocab_mask(",
+              "line": 643
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def _advance_pending_grammar(self):",
+              "line": 2079
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def advance_grammar_fsm(",
+              "line": 852
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def _accept_grammar_tokens(",
+              "line": 821
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def _resolve_spec_v2_tokens(",
+              "line": 745
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def process_batch_result_decode(",
+              "line": 921
+            }
+          ]
+        }
+      ]
     }
   ]
 }
