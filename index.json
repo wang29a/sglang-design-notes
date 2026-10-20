@@ -1392,6 +1392,146 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-20",
+      "lessons": [
+        {
+          "topic_id": "spec-kv-reserve-frontiers",
+          "title": "推测只接受少量 token，为什么 KV 预留区仍然不立即缩小",
+          "file": "daily/2026-10-20/01-speculative-reserve-and-two-frontiers.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "class ReqKvInfo:",
+              "line": 922
+            },
+            {
+              "path": "python/sglang/srt/speculative/eagle_utils.py",
+              "symbol": "def eagle_prepare_for_decode(batch: ScheduleBatch):",
+              "line": 1050
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocation_sizing.py",
+              "symbol": "def get_alloc_reserve_per_decode() -> int:",
+              "line": 53
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocation_sizing.py",
+              "symbol": "def page_aligned_decode_alloc_lens(",
+              "line": 62
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocation_sizing.py",
+              "symbol": "def get_alloc_len_per_decode() -> int:",
+              "line": 17
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocation.py",
+              "symbol": "def alloc_for_spec_decode(",
+              "line": 731
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def _resolve_spec_v2_tokens(",
+              "line": 745
+            }
+          ]
+        },
+        {
+          "topic_id": "tree-kv-compaction-token-offset",
+          "title": "新输出是 c、e、bonus，为什么整理后的 KV 却对应 a、c、e",
+          "file": "daily/2026-10-20/02-tree-kv-compaction-and-token-offset.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/speculative/eagle_utils.py",
+              "symbol": "def eagle_prepare_for_verify(",
+              "line": 520
+            },
+            {
+              "path": "python/sglang/srt/speculative/eagle_worker_common.py",
+              "symbol": "def _finalize_accept_tree_path(",
+              "line": 407
+            },
+            {
+              "path": "python/sglang/srt/speculative/spec_utils.py",
+              "symbol": "def move_accept_tokens_to_target_kvcache(",
+              "line": 728
+            },
+            {
+              "path": "python/sglang/kernels/ops/speculative/cache_locs.py",
+              "symbol": "def assign_extend_cache_locs(",
+              "line": 391
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/memory_pool.py",
+              "symbol": "def move_kv_cache(self, tgt_loc: torch.Tensor, src_loc: torch.Tensor):",
+              "line": 3051
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/memory_pool.py",
+              "symbol": "def move_kv_cache_native(",
+              "line": 5249
+            },
+            {
+              "path": "python/sglang/srt/speculative/eagle_worker_common.py",
+              "symbol": "def _compact_accept_to_front(",
+              "line": 439
+            }
+          ]
+        },
+        {
+          "topic_id": "spec-finish-page-tail-release",
+          "title": "请求结束时，有效 KV 尾部与推测预留尾部怎样避免释放同一页两次",
+          "file": "daily/2026-10-20/03-finish-cache-boundary-and-tail-release.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+              "symbol": "def _handle_finish_state_updated_req(",
+              "line": 1257
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/common.py",
+              "symbol": "def release_kv_cache(req: Req, tree_cache: BasePrefixCache, is_insert: bool = True):",
+              "line": 272
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/radix_cache.py",
+              "symbol": "def cache_finished_req(",
+              "line": 478
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/radix_cache.py",
+              "symbol": "class RadixKey:",
+              "line": 59
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/paged.py",
+              "symbol": "def free_segment(self, free_index: torch.Tensor, *, start_pos: int):",
+              "line": 282
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/common.py",
+              "symbol": "def _release_overallocated_kv_indices(",
+              "line": 317
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/base_prefix_cache.py",
+              "symbol": "def free_kv_row(self, kv: Any, ranges: list[tuple[int, int]]) -> None:",
+              "line": 454
+            }
+          ]
+        }
+      ]
     }
   ]
 }
