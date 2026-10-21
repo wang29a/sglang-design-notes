@@ -1532,6 +1532,221 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-21",
+      "lessons": [
+        {
+          "topic_id": "hicache-backup-completion-contract",
+          "title": "节点已经有 host_value，为什么还不能认定主机备份完成",
+          "file": "daily/2026-10-21/01-hicache-backup-allocation-and-completion.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/registry.py",
+              "symbol": "def default_radix_cache_factory(ctx: TreeCacheBuildContext) -> BasePrefixCache:",
+              "line": 80
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/radix_cache.py",
+              "symbol": "class TreeNode:",
+              "line": 256
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def write_backup(self, node: TreeNode, write_back=False) -> int:",
+              "line": 857
+            },
+            {
+              "path": "python/sglang/srt/managers/cache_controller.py",
+              "symbol": "def write(",
+              "line": 793
+            },
+            {
+              "path": "python/sglang/srt/managers/cache_controller.py",
+              "symbol": "def start_writing(self) -> None:",
+              "line": 811
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/l2_transfer.py",
+              "symbol": "def submit_device_to_host(self, transfers: list[L2Transfer]) -> TransferCompletion:",
+              "line": 57
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def writing_check(self, write_back=False, finish_count: Optional[int] = None):",
+              "line": 1045
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def _finish_write_through_ack(self, ack_id: int, *, release_lock: bool) -> None:",
+              "line": 921
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def _split_node(self, key: RadixKey, child: TreeNode, split_len: int):",
+              "line": 1896
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def _replace_pending_write_through_node(",
+              "line": 893
+            }
+          ]
+        },
+        {
+          "topic_id": "hicache-tier-demotion-ownership",
+          "title": "GPU 淘汰了前缀节点，为什么 radix 树还必须保留它",
+          "file": "daily/2026-10-21/02-hicache-demotion-and-host-eviction.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/registry.py",
+              "symbol": "def default_radix_cache_factory(ctx: TreeCacheBuildContext) -> BasePrefixCache:",
+              "line": 80
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def evict(self, params: EvictParams) -> EvictResult:",
+              "line": 1206
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def _evict_write_through(self, num_tokens: int) -> int:",
+              "line": 1230
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/radix_cache.py",
+              "symbol": "def _update_leaf_status(self, node: TreeNode):",
+              "line": 871
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def _evict_backuped(self, node: TreeNode):",
+              "line": 1295
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def _detach_backuped(self, node: TreeNode) -> int:",
+              "line": 1282
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def _evict_regular(self, node: TreeNode):",
+              "line": 1301
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def _promote_parent(self, node: TreeNode, heap) -> None:",
+              "line": 1224
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def evict_host(self, num_tokens: int):",
+              "line": 1356
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def _update_host_leaf_status(self, node: TreeNode):",
+              "line": 1191
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def _evict_write_back(self, num_tokens: int) -> int:",
+              "line": 1248
+            }
+          ]
+        },
+        {
+          "topic_id": "hicache-loadback-layer-readiness",
+          "title": "主机前缀命中后，为什么拿到 GPU 槽号还不能直接读取 KV",
+          "file": "daily/2026-10-21/03-hicache-loadback-and-layer-readiness.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/registry.py",
+              "symbol": "def default_radix_cache_factory(ctx: TreeCacheBuildContext) -> BasePrefixCache:",
+              "line": 80
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def match_prefix(self, params: MatchPrefixParams):",
+              "line": 1741
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def init_load_back(",
+              "line": 1464
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def load_back(",
+              "line": 1391
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_policy.py",
+              "symbol": "def add_one_req(",
+              "line": 1232
+            },
+            {
+              "path": "python/sglang/srt/managers/cache_controller.py",
+              "symbol": "def load(",
+              "line": 841
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def ready_to_load_host_cache(self) -> int:",
+              "line": 1538
+            },
+            {
+              "path": "python/sglang/srt/managers/cache_controller.py",
+              "symbol": "def start_loading(self) -> int:",
+              "line": 941
+            },
+            {
+              "path": "python/sglang/srt/managers/tp_worker.py",
+              "symbol": "def set_hicache_consumer(self, consumer_index: int):",
+              "line": 572
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/l2_transfer.py",
+              "symbol": "def submit_host_to_device(",
+              "line": 74
+            },
+            {
+              "path": "python/sglang/srt/managers/cache_controller.py",
+              "symbol": "class LayerLoadingEvent:",
+              "line": 53
+            },
+            {
+              "path": "python/sglang/srt/managers/cache_controller.py",
+              "symbol": "class LayerDoneCounter:",
+              "line": 71
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/memory_pool.py",
+              "symbol": "def get_key_buffer(self, layer_id: int):",
+              "line": 2532
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/memory_pool.py",
+              "symbol": "def get_value_buffer(self, layer_id: int):",
+              "line": 2556
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/hiradix_cache.py",
+              "symbol": "def loading_check(self, finish_count: Optional[int] = None):",
+              "line": 1099
+            }
+          ]
+        }
+      ]
     }
   ]
 }
