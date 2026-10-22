@@ -1747,6 +1747,176 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-22",
+      "lessons": [
+        {
+          "topic_id": "unified-component-window-consensus",
+          "title": "FULL KV 命中了二十四项，为什么请求只能复用前二十项",
+          "file": "daily/2026-10-22/01-component-consensus-and-window-recovery.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/registry.py",
+              "symbol": "def default_radix_cache_factory(ctx: TreeCacheBuildContext) -> BasePrefixCache:",
+              "line": 80
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def __init__(",
+              "line": 163
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/tree_core_registry.py",
+              "symbol": "def _python_tree_core_factory(",
+              "line": 48
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "class UnifiedTreeNode:",
+              "line": 110
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _match_prefix_helper(",
+              "line": 830
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/full.py",
+              "symbol": "def create_match_validator(",
+              "line": 105
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def create_match_validator(",
+              "line": 319
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _match_post_processor(",
+              "line": 946
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def finalize_match_result_in_tree_core(",
+              "line": 344
+            }
+          ]
+        },
+        {
+          "topic_id": "unified-match-split-state-identity",
+          "title": "一次前缀查询，为什么会拆开其他请求正在引用的节点",
+          "file": "daily/2026-10-22/02-match-split-and-component-identity.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _match_prefix_helper(",
+              "line": 830
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _split_node(",
+              "line": 1377
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def node_by_id(self, node_id: NodeId) -> UnifiedTreeNode:",
+              "line": 547
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/full.py",
+              "symbol": "def redistribute_on_node_split(",
+              "line": 142
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def redistribute_on_node_split(",
+              "line": 586
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def match_prefix(self, params: MatchPrefixParams) -> MatchResult:",
+              "line": 558
+            }
+          ]
+        },
+        {
+          "topic_id": "unified-lock-receipt-split-boundary",
+          "title": "节点拆分后，为什么解锁必须重放旧凭据而不能重新数一个窗口",
+          "file": "daily/2026-10-22/03-lock-receipt-and-split-window-boundary.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/full.py",
+              "symbol": "def acquire_component_lock(",
+              "line": 263
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def acquire_component_lock(",
+              "line": 774
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/base_prefix_cache.py",
+              "symbol": "class IncLockRefResult:",
+              "line": 161
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def inc_lock_ref(",
+              "line": 673
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def release_component_lock(",
+              "line": 832
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def dec_lock_ref(",
+              "line": 726
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _assert_receipt_anchor(node: UnifiedTreeNode, params: DecLockRefParams) -> None:",
+              "line": 689
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def _dec_req_lock(self, req: Req, *, skip_swa: bool = False) -> None:",
+              "line": 934
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def cache_unfinished_req(self, req: Req, chunked: bool = False, **kwargs) -> None:",
+              "line": 1115
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def maybe_evict_swa(self):",
+              "line": 3811
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def dec_swa_lock_only(",
+              "line": 757
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def release_window_lock(",
+              "line": 880
+            }
+          ]
+        }
+      ]
     }
   ]
 }
