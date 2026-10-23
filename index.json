@@ -1917,6 +1917,201 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-23",
+      "lessons": [
+        {
+          "topic_id": "unified-component-allocation-shortfalls",
+          "title": "FULL 还空着八个槽，为什么新 prefill 仍要先淘汰 SWA",
+          "file": "daily/2026-10-23/01-component-shortfalls-and-allocation-targets.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/swa.py",
+              "symbol": "def available_size(self):",
+              "line": 152
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/swa.py",
+              "symbol": "def new_pages_available(self, num_full_pages: int, num_swa_pages: int) -> bool:",
+              "line": 277
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocation.py",
+              "symbol": "def alloc_paged_token_slots_extend(",
+              "line": 174
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/swa.py",
+              "symbol": "def alloc_extend(",
+              "line": 289
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/swa.py",
+              "symbol": "def evict_to_free_tokens(self, tree_cache, num_tokens: int) -> None:",
+              "line": 199
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def evict_for_alloc(self, params: EvictParams) -> EvictResult:",
+              "line": 610
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def _component_available_size(self, component_type: ComponentType) -> int:",
+              "line": 689
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def _evict_components(",
+              "line": 807
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def _evict_device_next_node(",
+              "line": 759
+            }
+          ]
+        },
+        {
+          "topic_id": "unified-internal-tombstone-leaf-collapse",
+          "title": "同样为 SWA 腾空间，为什么有时保留 FULL，有时整片前缀一起删除",
+          "file": "daily/2026-10-23/02-internal-tombstones-and-leaf-collapse.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def _evict_device_next_node(",
+              "line": 713
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _is_device_leaf(self, node: UnifiedTreeNode) -> bool:",
+              "line": 2099
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def evict_component(",
+              "line": 654
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _cascade_evict(",
+              "line": 1891
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/full.py",
+              "symbol": "def eviction_priority(self, is_leaf: bool) -> int:",
+              "line": 187
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def eviction_priority(self, is_leaf: bool) -> int:",
+              "line": 698
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _should_cascade_evict_component(",
+              "line": 1942
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def evict_device_leaf(",
+              "line": 1597
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _delete_unbacked_device_leaf(",
+              "line": 1700
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _release_all_component_layers(",
+              "line": 1677
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def evict_device_next_node(",
+              "line": 1569
+            }
+          ]
+        },
+        {
+          "topic_id": "swa-typed-free-peer-mapping",
+          "title": "释放 SWA，为什么传给分配器的却是 FULL 槽号",
+          "file": "daily/2026-10-23/03-typed-frees-and-swa-peer-mapping.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def evict_component(",
+              "line": 654
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def _drain_device_frees(",
+              "line": 1306
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def apply_component_action(self, action: ComponentAction) -> None:",
+              "line": 1453
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/swa.py",
+              "symbol": "def free_swa_segment(self, free_index: torch.Tensor, *, start_pos: int):",
+              "line": 513
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/swa.py",
+              "symbol": "def _free_swa_pages(self, free_index: torch.Tensor, start_pos: int):",
+              "line": 521
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/swa.py",
+              "symbol": "def _free_swa_pages_none_cuda(",
+              "line": 544
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/swa.py",
+              "symbol": "def _free_swa_pages_cuda(",
+              "line": 569
+            },
+            {
+              "path": "python/sglang/kernels/ops/memory/allocator.py",
+              "symbol": "def get_and_clear_swa_pages(",
+              "line": 66
+            },
+            {
+              "path": "python/sglang/kernels/ops/memory/allocator.py",
+              "symbol": "def get_and_clear_swa_pages_kernel(",
+              "line": 7
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/swa.py",
+              "symbol": "def free_group_end(self):",
+              "line": 639
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/full.py",
+              "symbol": "def apply_component_action(self, action: ComponentAction) -> None:",
+              "line": 504
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/full.py",
+              "symbol": "def evict_component(",
+              "line": 160
+            }
+          ]
+        }
+      ]
     }
   ]
 }
