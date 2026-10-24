@@ -40,6 +40,7 @@ SGLang 把不断到达的请求组织成动态批次，让它们共享有限的 
 
 | 日期 | 三个相连的问题 | 源码版本 |
 | --- | --- | --- |
+| 2026-10-24 | [部分恢复与消费边界](daily/2026-10-24/01-partial-swa-recovery-and-consumed-boundary.md) → [保护 FULL 的 SWA 接纳](daily/2026-10-24/02-locked-full-swa-peer-adoption.md) → [插入阶段与动作屏障](daily/2026-10-24/03-resumable-insert-and-action-barriers.md) | `0f6761b54fac` |
 | 2026-10-23 | [分组件容量短缺](daily/2026-10-23/01-component-shortfalls-and-allocation-targets.md) → [内部退化与叶子收缩](daily/2026-10-23/02-internal-tombstones-and-leaf-collapse.md) → [类型化释放与伙伴映射](daily/2026-10-23/03-typed-frees-and-swa-peer-mapping.md) | `0f6761b54fac` |
 | 2026-10-22 | [组件共识与窗口恢复](daily/2026-10-22/01-component-consensus-and-window-recovery.md) → [匹配拆分与状态身份](daily/2026-10-22/02-match-split-and-component-identity.md) → [锁凭据与边界重放](daily/2026-10-22/03-lock-receipt-and-split-window-boundary.md) | `0f6761b54fac` |
 | 2026-10-21 | [主机备份与完成确认](daily/2026-10-21/01-hicache-backup-allocation-and-completion.md) → [GPU 降级与主机淘汰](daily/2026-10-21/02-hicache-demotion-and-host-eviction.md) → [回装与逐层可读边界](daily/2026-10-21/03-hicache-loadback-and-layer-readiness.md) | `0f6761b54fac` |
@@ -64,7 +65,7 @@ SGLang 把不断到达的请求组织成动态批次，让它们共享有限的 
 | 请求生命周期 | 进程边界、请求表示、前缀共享与资源归属 | 已发布入口、表示、前缀归属与取消清理 |
 | 调度与容量 | Continuous batching、chunked prefill、排队策略、KV 分配与回退 | 已发布批次形成、分块、准入、槽位映射、分页增长与回退 |
 | 执行与并发 | CPU/GPU overlap、延迟结果、CUDA Graph、attention backend | 已发布 overlap、图回放、attention 元数据、decode 分片、GQA 复用与归约稳定性 |
-| 功能与架构扩展 | 结构化输出、推测解码、多模态、HiCache、PD 分离与路由 | 已发布结构化输出、推测、HiCache 与 UnifiedRadixCache 的匹配、保护、容量判断和分组件回收；其余待深入 |
+| 功能与架构扩展 | 结构化输出、推测解码、多模态、HiCache、PD 分离与路由 | 已发布结构化输出、推测、HiCache 与统一缓存的匹配、回收、SWA 恢复及插入动作屏障；其余待深入 |
 | 分布式执行 | TP / DP / EP、通信、控制面与数据面 | 规划中 |
 
 [ROADMAP.md](ROADMAP.md) 解释这些问题之间的联系。它是一条可调整的学习路线，实际选题会随源码和已有文章中暴露的疑问延伸。

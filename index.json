@@ -2112,6 +2112,151 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-24",
+      "lessons": [
+        {
+          "topic_id": "swa-partial-overlap-consumed-boundary",
+          "title": "补算出一段重叠前缀后，为什么缓存只接纳它的后半段 SWA",
+          "file": "daily/2026-10-24/01-partial-swa-recovery-and-consumed-boundary.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/base_prefix_cache.py",
+              "symbol": "class InsertParams:",
+              "line": 76
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def prepare_for_caching_req(",
+              "line": 925
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def cache_unfinished_req(self, req: Req, chunked: bool = False, **kwargs) -> None:",
+              "line": 1115
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def update_component_on_insert_overlap(",
+              "line": 388
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _insert_walk_step(self, state: _InsertWalkState) -> None:",
+              "line": 1217
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/base_prefix_cache.py",
+              "symbol": "def record_adopted_range(",
+              "line": 129
+            }
+          ]
+        },
+        {
+          "topic_id": "swa-locked-full-peer-adoption",
+          "title": "旧 FULL 还被其他请求引用，怎样接纳新 SWA 而不搬动它的槽号",
+          "file": "daily/2026-10-24/02-locked-full-swa-peer-adoption.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def update_component_on_insert_overlap(",
+              "line": 388
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/cache_action.py",
+              "symbol": "class RecoverSWAWithLockedFull(ComponentAction, frozen=True):",
+              "line": 91
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/swa.py",
+              "symbol": "def apply_component_action(self, action: ComponentAction) -> None:",
+              "line": 1453
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/swa.py",
+              "symbol": "def set_full_to_swa_mapping(",
+              "line": 466
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/swa.py",
+              "symbol": "def free_full_segment(self, free_index: torch.Tensor, *, start_pos: int):",
+              "line": 622
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def set_component_device_value(",
+              "line": 2663
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/cache_action.py",
+              "symbol": "class SWARebuild(ComponentAction, frozen=True):",
+              "line": 101
+            }
+          ]
+        },
+        {
+          "topic_id": "unified-resumable-insert-action-barriers",
+          "title": "插入前缀为什么要暂停并执行动作，不能只返回一张统一清理清单",
+          "file": "daily/2026-10-24/03-resumable-insert-and-action-barriers.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def insert(self, params: InsertParams) -> InsertResult:",
+              "line": 586
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "class _InsertWalkState(msgspec.Struct):",
+              "line": 412
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def begin_insert(self, params: InsertParams) -> InsertStepResult:",
+              "line": 1066
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _advance_insert(self) -> InsertStepResult:",
+              "line": 1185
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _is_deferrable_action(action: CacheAction | ComponentAction) -> bool:",
+              "line": 1210
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def resume_insert(self) -> InsertStepResult:",
+              "line": 1169
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def _apply_cache_actions(",
+              "line": 1263
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def end_insert(self) -> list[CacheAction | ComponentAction]:",
+              "line": 1179
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _insert_commit_step(self, state: _InsertWalkState) -> None:",
+              "line": 1296
+            }
+          ]
+        }
+      ]
     }
   ]
 }
