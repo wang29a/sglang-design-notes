@@ -2257,6 +2257,161 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-25",
+      "lessons": [
+        {
+          "topic_id": "mamba-checkpoint-prefix-identity",
+          "title": "FULL 前缀已经命中，为什么 Mamba 状态不能跟着节点一起切开",
+          "file": "daily/2026-10-25/01-mamba-checkpoint-prefix-identity.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/registry.py",
+              "symbol": "def _create_unified_radix_cache(",
+              "line": 149
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def _match_prefix_helper(",
+              "line": 830
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/mamba.py",
+              "symbol": "def redistribute_on_node_split(",
+              "line": 304
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/mamba.py",
+              "symbol": "def create_match_validator(",
+              "line": 142
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/mamba.py",
+              "symbol": "def finalize_match_result_in_tree_core(",
+              "line": 155
+            },
+            {
+              "path": "python/sglang/srt/runtime_context.py",
+              "symbol": "def mamba_checkpoint_grid(tree_page: int) -> int:",
+              "line": 2227
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def _mamba_radix_cache_v2_req_prepare_for_extend(",
+              "line": 2969
+            }
+          ]
+        },
+        {
+          "topic_id": "mamba-deferred-cow-forward-boundary",
+          "title": "两个请求命中同一个 Mamba 检查点，为什么匹配结束时还没有真正复制状态",
+          "file": "daily/2026-10-25/02-deferred-mamba-cow-before-forward.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/mamba.py",
+              "symbol": "def finalize_match_result_in_cache(",
+              "line": 187
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def _collect_deferred_mamba_cow_and_clear(self, reqs):",
+              "line": 3069
+            },
+            {
+              "path": "python/sglang/srt/model_executor/model_runner.py",
+              "symbol": "def _maybe_execute_deferred_mamba_cow_and_clear(",
+              "line": 1801
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/memory_pool.py",
+              "symbol": "def copy_mamba_state(",
+              "line": 1557
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/memory_pool.py",
+              "symbol": "def copy_from(self, src_indices: torch.Tensor, dst_indices: torch.Tensor):",
+              "line": 1030
+            },
+            {
+              "path": "python/sglang/srt/managers/schedule_policy.py",
+              "symbol": "def _req_inc_lock_ref(self, req: Req):",
+              "line": 979
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/mamba.py",
+              "symbol": "def acquire_component_lock(",
+              "line": 427
+            },
+            {
+              "path": "python/sglang/srt/managers/scheduler.py",
+              "symbol": "def _get_new_batch_prefill_raw(",
+              "line": 3843
+            }
+          ]
+        },
+        {
+          "topic_id": "mamba-checkpoint-slot-donation",
+          "title": "请求还要继续更新，为什么能把 Mamba 跟踪槽直接交给缓存",
+          "file": "daily/2026-10-25/03-mamba-checkpoint-slot-donation.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/managers/schedule_batch.py",
+              "symbol": "def _mamba_radix_cache_v2_req_prepare_for_extend(",
+              "line": 2969
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/memory_pool.py",
+              "symbol": "def get_mamba_ping_pong_keep_idx(self, req: Req) -> int:",
+              "line": 1591
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/mamba.py",
+              "symbol": "def prepare_for_caching_req(",
+              "line": 525
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def cache_unfinished_req(self, req: Req, chunked: bool = False, **kwargs) -> None:",
+              "line": 1115
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/mamba.py",
+              "symbol": "def _alloc_mamba_slot(self) -> torch.Tensor:",
+              "line": 489
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/memory_pool.py",
+              "symbol": "def donate_mamba_ping_pong_slot(",
+              "line": 1638
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/mamba.py",
+              "symbol": "def commit_insert_component_data(",
+              "line": 218
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/mamba.py",
+              "symbol": "def cleanup_after_caching_req(",
+              "line": 603
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/memory_pool.py",
+              "symbol": "def free_mamba_cache(",
+              "line": 1661
+            }
+          ]
+        }
+      ]
     }
   ]
 }
