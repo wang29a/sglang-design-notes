@@ -2412,6 +2412,156 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-10-26",
+      "lessons": [
+        {
+          "topic_id": "mamba-path-cap-retained-anchors",
+          "title": "每条路径最多保留两个检查点，为什么树中仍可能留下三个",
+          "file": "daily/2026-10-26/01-mamba-path-cap-and-retained-anchors.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/mamba.py",
+              "symbol": "def _emit_excess_path_states_eviction(",
+              "line": 246
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/mamba.py",
+              "symbol": "def apply_component_action(self, action: ComponentAction) -> None:",
+              "line": 915
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+              "symbol": "def evict_excess_path_states(",
+              "line": 1746
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/mamba.py",
+              "symbol": "def _evict_excess_path_states(",
+              "line": 256
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_cache/components/mamba.py",
+              "symbol": "def acquire_component_lock(",
+              "line": 427
+            }
+          ]
+        },
+        {
+          "topic_id": "mamba-id-byte-capacity-views",
+          "title": "Mamba 还有四个空闲槽号，为什么仍可能申请不到一个状态",
+          "file": "daily/2026-10-26/02-mamba-ids-and-schedulable-bytes.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/unified_mamba.py",
+              "symbol": "def __init__(",
+              "line": 50
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_memory_pool.py",
+              "symbol": "def available_size(self) -> int:",
+              "line": 964
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/unified_sub_pool.py",
+              "symbol": "def _available_tokens(self, extra_gap_bytes: int = 0) -> int:",
+              "line": 693
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/unified_sub_pool.py",
+              "symbol": "def available_size(self) -> int:",
+              "line": 708
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/unified_sub_pool.py",
+              "symbol": "def schedulable_available_size(self) -> int:",
+              "line": 734
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/unified_sub_pool.py",
+              "symbol": "def _peer_drainable_hole_bytes(self) -> int:",
+              "line": 720
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_memory_pool.py",
+              "symbol": "def schedulable_available_size(self) -> int:",
+              "line": 969
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def _component_available_size(self, component_type: ComponentType) -> int:",
+              "line": 689
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/unified_sub_pool.py",
+              "symbol": "def alloc(self, need_size: int) -> Optional[torch.Tensor]:",
+              "line": 1122
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/unified_sub_pool.py",
+              "symbol": "def _relieve_for_alloc(short_pool, need_tokens: int) -> bool:",
+              "line": 195
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_memory_pool.py",
+              "symbol": "def translate(self, virtual_ids: torch.Tensor) -> torch.Tensor:",
+              "line": 950
+            }
+          ]
+        },
+        {
+          "topic_id": "mamba-full-donor-byte-pressure",
+          "title": "为 Mamba 申请一个状态，为什么回收的却可能是 FULL 缓存",
+          "file": "daily/2026-10-26/03-full-cache-donation-for-mamba-pressure.md",
+          "source_commit": "0f6761b54facebb47f2068f87ecccd8f14da3a0e",
+          "evidence": "static_source_review",
+          "status": "complete",
+          "sources": [
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def evict_for_alloc(self, params: EvictParams) -> EvictResult:",
+              "line": 610
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/unified_mamba.py",
+              "symbol": "def mamba_full_cache_donor(self) -> MambaFullCacheDonor:",
+              "line": 154
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/unified_mamba.py",
+              "symbol": "def prepare_mamba_allocation(self, target_size: int) -> None:",
+              "line": 166
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/unified_radix_cache.py",
+              "symbol": "def _evict_components(",
+              "line": 807
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/unified_mamba.py",
+              "symbol": "def flush_deferred_full_frees(self) -> None:",
+              "line": 157
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/unified_sub_pool.py",
+              "symbol": "def _flush_deferred_free_group(",
+              "line": 210
+            },
+            {
+              "path": "python/sglang/srt/mem_cache/allocator/unified_sub_pool.py",
+              "symbol": "def _full_tokens_before_mamba_recheck(",
+              "line": 221
+            }
+          ]
+        }
+      ]
     }
   ]
 }
